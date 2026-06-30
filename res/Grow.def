@@ -1,0 +1,4 @@
+LIBRARY "Grow"
+EXPORTS
+    EffectMain
+    PluginDataEntryFunction
