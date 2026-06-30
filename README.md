@@ -54,11 +54,26 @@
 - CMake 3.20 以上
 - Windows: Visual Studio 2019+ / macOS: Xcode 12+
 
-### ビルド手順
+### ビルド手順（macOS）
 
 ```bash
 mkdir build && cd build
-cmake .. -DAESDK_ROOT=/path/to/AfterEffectsSDK
+cmake .. -DAESDK_ROOT=~/Documents/ae25.6_61.64bit.AfterEffectsSDK
+cmake --build . --config Release
+```
+
+Xcode で開きたい場合:
+```bash
+mkdir build && cd build
+cmake -G Xcode .. -DAESDK_ROOT=~/Documents/ae25.6_61.64bit.AfterEffectsSDK
+open Grow.xcodeproj
+```
+
+### ビルド手順（Windows）
+
+```bash
+mkdir build && cd build
+cmake .. -DAESDK_ROOT=C:\path\to\AfterEffectsSDK
 cmake --build . --config Release
 ```
 
