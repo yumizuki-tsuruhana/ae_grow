@@ -69,7 +69,7 @@ ParamsSetup(
         0.0, 100.0,
         0.0, 100.0,
         50.0,
-        PF_Precision_ONES,
+        PF_Precision_INTEGER,
         0, 0,
         SOFTNESS_DISK_ID);
 
@@ -120,7 +120,7 @@ ParamsSetup(
         0.0, 100.0,
         0.0, 100.0,
         0.0,
-        PF_Precision_ONES,
+        PF_Precision_INTEGER,
         0, 0,
         BLEND_DISK_ID);
 
