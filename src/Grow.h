@@ -1,9 +1,32 @@
 #pragma once
 
-#include "AEEffect.h"
-#include "AEEffectCB.h"
-#include "AEEffectCBSuites.h"
-#include "AEEffectSuites.h"
+#ifndef GROW_H
+#define GROW_H
+
+typedef unsigned char       u_char;
+typedef unsigned short      u_short;
+typedef unsigned short      u_int16;
+typedef unsigned long       u_long;
+typedef short int           int16;
+
+#define PF_TABLE_BITS   12
+#define PF_TABLE_SZ_16  4096
+
+#define PF_DEEP_COLOR_AWARE 1
+
+#include "AEConfig.h"
+
+#ifdef AE_OS_WIN
+    typedef unsigned short PixelType;
+    #include <Windows.h>
+#endif
+
+#include "entry.h"
+#include "AE_Effect.h"
+#include "AE_EffectCB.h"
+#include "AE_EffectCBSuites.h"
+#include "AE_Macros.h"
+#include "Param_Utils.h"
 #include "AEFX_SuiteHelper.h"
 
 #define GROW_MAJOR_VERSION    1
@@ -98,3 +121,5 @@ DllExport PF_Err EffectMain(
 #ifdef __cplusplus
 }
 #endif
+
+#endif // GROW_H

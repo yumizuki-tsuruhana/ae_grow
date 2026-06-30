@@ -16,16 +16,21 @@ if(NOT DEFINED AESDK_ROOT)
     endif()
 endif()
 
-# Locate AEEffect.h to auto-detect SDK layout
-file(GLOB_RECURSE _ae_effect_h "${AESDK_ROOT}/**/AEEffect.h")
+# Locate AE_Effect.h to auto-detect SDK layout
+file(GLOB_RECURSE _ae_effect_h "${AESDK_ROOT}/**/AE_Effect.h")
 if(_ae_effect_h)
     list(GET _ae_effect_h 0 _ae_effect_h_first)
     get_filename_component(AE_HEADERS "${_ae_effect_h_first}" DIRECTORY)
     message(STATUS "AE SDK headers found at: ${AE_HEADERS}")
 else()
     set(AE_HEADERS "${AESDK_ROOT}/Examples/Headers")
-    message(WARNING "AEEffect.h not found by search, assuming: ${AE_HEADERS}")
+    message(WARNING "AE_Effect.h not found by search, assuming: ${AE_HEADERS}")
 endif()
+
+# Derive Util directory relative to Headers
+get_filename_component(_examples_dir "${AE_HEADERS}" DIRECTORY)
+set(AE_UTIL "${_examples_dir}/Util")
+set(AE_RES  "${_examples_dir}/Resources")
 
 # --- Sources ---
 set(SOURCES
@@ -44,8 +49,8 @@ target_include_directories(Grow PRIVATE
     ${AE_HEADERS}
     ${AE_HEADERS}/adobesdk
     ${AE_HEADERS}/SP
-    ${AE_HEADERS}/../Util
-    ${AE_HEADERS}/../Resources
+    ${AE_UTIL}
+    ${AE_RES}
 )
 
 # --- Platform config ---

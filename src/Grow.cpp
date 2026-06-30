@@ -1,9 +1,10 @@
 #include "Grow.h"
 #include "GrowKernel.h"
 
-static PF_Err About(
-    PF_InData  *in_data,
-    PF_OutData *out_data,
+static PF_Err
+About(
+    PF_InData   *in_data,
+    PF_OutData  *out_data,
     PF_ParamDef *params[],
     PF_LayerDef *output)
 {
@@ -15,9 +16,10 @@ static PF_Err About(
     return PF_Err_NONE;
 }
 
-static PF_Err GlobalSetup(
-    PF_InData  *in_data,
-    PF_OutData *out_data,
+static PF_Err
+GlobalSetup(
+    PF_InData   *in_data,
+    PF_OutData  *out_data,
     PF_ParamDef *params[],
     PF_LayerDef *output)
 {
@@ -41,16 +43,16 @@ static PF_Err GlobalSetup(
     return PF_Err_NONE;
 }
 
-static PF_Err ParamsSetup(
-    PF_InData  *in_data,
-    PF_OutData *out_data,
+static PF_Err
+ParamsSetup(
+    PF_InData   *in_data,
+    PF_OutData  *out_data,
     PF_ParamDef *params[],
     PF_LayerDef *output)
 {
     PF_ParamDef def;
     PF_Err      err = PF_Err_NONE;
 
-    // Radius
     AEFX_CLR_STRUCT(def);
     PF_ADD_FLOAT_SLIDERX(
         "Radius",
@@ -61,7 +63,6 @@ static PF_Err ParamsSetup(
         0, 0,
         RADIUS_DISK_ID);
 
-    // Softness
     AEFX_CLR_STRUCT(def);
     PF_ADD_FLOAT_SLIDERX(
         "Softness",
@@ -72,7 +73,6 @@ static PF_Err ParamsSetup(
         0, 0,
         SOFTNESS_DISK_ID);
 
-    // Mode
     AEFX_CLR_STRUCT(def);
     PF_ADD_POPUP(
         "Mode",
@@ -81,7 +81,6 @@ static PF_Err ParamsSetup(
         "Grow|Shrink|Edge Only",
         MODE_DISK_ID);
 
-    // Shape
     AEFX_CLR_STRUCT(def);
     PF_ADD_POPUP(
         "Shape",
@@ -90,7 +89,6 @@ static PF_Err ParamsSetup(
         "Circle|Square|Diamond",
         SHAPE_DISK_ID);
 
-    // Channel
     AEFX_CLR_STRUCT(def);
     PF_ADD_POPUP(
         "Channel",
@@ -99,7 +97,6 @@ static PF_Err ParamsSetup(
         "Alpha|Luminance|RGB Max",
         CHANNEL_DISK_ID);
 
-    // Threshold
     AEFX_CLR_STRUCT(def);
     PF_ADD_FLOAT_SLIDERX(
         "Threshold",
@@ -110,7 +107,6 @@ static PF_Err ParamsSetup(
         0, 0,
         THRESHOLD_DISK_ID);
 
-    // Invert
     AEFX_CLR_STRUCT(def);
     PF_ADD_CHECKBOXX(
         "Invert",
@@ -118,7 +114,6 @@ static PF_Err ParamsSetup(
         0,
         INVERT_DISK_ID);
 
-    // Blend with Original
     AEFX_CLR_STRUCT(def);
     PF_ADD_FLOAT_SLIDERX(
         "Blend Original",
@@ -129,12 +124,13 @@ static PF_Err ParamsSetup(
         0, 0,
         BLEND_DISK_ID);
 
-    out_data->num_effect_params = GROW_NUM_PARAMS;
+    out_data->num_params = GROW_NUM_PARAMS;
 
     return err;
 }
 
-static void read_params(PF_ParamDef *params[], GrowParams &gp)
+static void
+read_params(PF_ParamDef *params[], GrowParams &gp)
 {
     gp.radius    = params[GROW_RADIUS]->u.fs_d.value;
     gp.softness  = params[GROW_SOFTNESS]->u.fs_d.value;
@@ -146,9 +142,10 @@ static void read_params(PF_ParamDef *params[], GrowParams &gp)
     gp.blend     = params[GROW_BLEND_ORIGINAL]->u.fs_d.value;
 }
 
-static PF_Err PreRender(
-    PF_InData        *in_data,
-    PF_OutData       *out_data,
+static PF_Err
+PreRender(
+    PF_InData         *in_data,
+    PF_OutData        *out_data,
     PF_PreRenderExtra *extra)
 {
     PF_Err err = PF_Err_NONE;
@@ -156,7 +153,6 @@ static PF_Err PreRender(
     PF_RenderRequest req = extra->input->output_request;
     PF_CheckoutResult cr;
 
-    // Expand the input rect by radius for border pixels
     PF_ParamDef radius_param;
     AEFX_CLR_STRUCT(radius_param);
     ERR(PF_CHECKOUT_PARAM(in_data, GROW_RADIUS, in_data->current_time,
@@ -178,7 +174,7 @@ static PF_Err PreRender(
                                    in_data->time_scale, &cr));
 
     if (!err) {
-        extra->output->result_rect   = cr.result_rect;
+        extra->output->result_rect     = cr.result_rect;
         extra->output->max_result_rect = cr.max_result_rect;
     }
 
@@ -186,15 +182,16 @@ static PF_Err PreRender(
     return err;
 }
 
-static PF_Err SmartRender(
-    PF_InData           *in_data,
-    PF_OutData          *out_data,
-    PF_SmartRenderExtra *extra)
+static PF_Err
+SmartRender(
+    PF_InData            *in_data,
+    PF_OutData           *out_data,
+    PF_SmartRenderExtra  *extra)
 {
     PF_Err err = PF_Err_NONE;
 
-    PF_EffectWorld *input_world  = nullptr;
-    PF_EffectWorld *output_world = nullptr;
+    PF_EffectWorld *input_world  = NULL;
+    PF_EffectWorld *output_world = NULL;
 
     ERR(extra->cb->checkout_layer_pixels(in_data->effect_ref, GROW_INPUT, &input_world));
     ERR(extra->cb->checkout_output(in_data->effect_ref, &output_world));
@@ -202,7 +199,6 @@ static PF_Err SmartRender(
     if (err || !input_world || !output_world)
         return err;
 
-    // Fetch all parameters
     PF_ParamDef p_radius, p_soft, p_mode, p_shape, p_chan, p_thresh, p_inv, p_blend;
     AEFX_CLR_STRUCT(p_radius); AEFX_CLR_STRUCT(p_soft);
     AEFX_CLR_STRUCT(p_mode);   AEFX_CLR_STRUCT(p_shape);
@@ -211,12 +207,12 @@ static PF_Err SmartRender(
 
     ERR(PF_CHECKOUT_PARAM(in_data, GROW_RADIUS,         in_data->current_time, in_data->time_step, in_data->time_scale, &p_radius));
     ERR(PF_CHECKOUT_PARAM(in_data, GROW_SOFTNESS,       in_data->current_time, in_data->time_step, in_data->time_scale, &p_soft));
-    ERR(PF_CHECKOUT_PARAM(in_data, GROW_MODE,            in_data->current_time, in_data->time_step, in_data->time_scale, &p_mode));
-    ERR(PF_CHECKOUT_PARAM(in_data, GROW_SHAPE,           in_data->current_time, in_data->time_step, in_data->time_scale, &p_shape));
-    ERR(PF_CHECKOUT_PARAM(in_data, GROW_CHANNEL,         in_data->current_time, in_data->time_step, in_data->time_scale, &p_chan));
-    ERR(PF_CHECKOUT_PARAM(in_data, GROW_THRESHOLD,       in_data->current_time, in_data->time_step, in_data->time_scale, &p_thresh));
-    ERR(PF_CHECKOUT_PARAM(in_data, GROW_INVERT,          in_data->current_time, in_data->time_step, in_data->time_scale, &p_inv));
-    ERR(PF_CHECKOUT_PARAM(in_data, GROW_BLEND_ORIGINAL,  in_data->current_time, in_data->time_step, in_data->time_scale, &p_blend));
+    ERR(PF_CHECKOUT_PARAM(in_data, GROW_MODE,           in_data->current_time, in_data->time_step, in_data->time_scale, &p_mode));
+    ERR(PF_CHECKOUT_PARAM(in_data, GROW_SHAPE,          in_data->current_time, in_data->time_step, in_data->time_scale, &p_shape));
+    ERR(PF_CHECKOUT_PARAM(in_data, GROW_CHANNEL,        in_data->current_time, in_data->time_step, in_data->time_scale, &p_chan));
+    ERR(PF_CHECKOUT_PARAM(in_data, GROW_THRESHOLD,      in_data->current_time, in_data->time_step, in_data->time_scale, &p_thresh));
+    ERR(PF_CHECKOUT_PARAM(in_data, GROW_INVERT,         in_data->current_time, in_data->time_step, in_data->time_scale, &p_inv));
+    ERR(PF_CHECKOUT_PARAM(in_data, GROW_BLEND_ORIGINAL, in_data->current_time, in_data->time_step, in_data->time_scale, &p_blend));
 
     if (!err) {
         GrowParams gp;
@@ -236,7 +232,7 @@ static PF_Err SmartRender(
             int w = input_world->width;
             int h = input_world->height;
             for (int y = 0; y < h; ++y) {
-                std::memcpy(
+                memcpy(
                     (char *)output_world->data + y * output_world->rowbytes,
                     (char *)input_world->data  + y * input_world->rowbytes,
                     w * (is_16bit ? sizeof(PF_Pixel16) : sizeof(PF_Pixel8)));
@@ -258,7 +254,8 @@ static PF_Err SmartRender(
     return err;
 }
 
-static PF_Err Render(
+static PF_Err
+Render(
     PF_InData   *in_data,
     PF_OutData  *out_data,
     PF_ParamDef *params[],
@@ -283,7 +280,8 @@ static PF_Err Render(
     return err;
 }
 
-static PF_Err QueryDynamicFlags(
+static PF_Err
+QueryDynamicFlags(
     PF_InData   *in_data,
     PF_OutData  *out_data,
     PF_ParamDef *params[],
@@ -292,23 +290,31 @@ static PF_Err QueryDynamicFlags(
     return PF_Err_NONE;
 }
 
-DllExport PF_Err PluginDataEntryFunction(
+DllExport PF_Err
+PluginDataEntryFunction2(
     PF_PluginDataPtr   inPtr,
-    PF_PluginDataCB    inPluginDataCallBackPtr,
+    PF_PluginDataCB2   inPluginDataCallBackPtr,
     SPBasicSuite      *inSPBasicSuitePtr,
     const char        *inHostName,
     const char        *inHostVersion)
 {
-    return PF_REGISTER_EFFECT(
+    PF_Err result = PF_Err_INVALID_CALLBACK;
+
+    result = PF_REGISTER_EFFECT_EXT2(
         inPtr,
         inPluginDataCallBackPtr,
         GROW_PLUGIN_NAME,
         GROW_MATCH_NAME,
         GROW_CATEGORY,
-        AE_RESERVED_INFO);
+        AE_RESERVED_INFO,
+        "EffectMain",
+        "https://github.com/yumizuki-tsuruhana/ae_grow");
+
+    return result;
 }
 
-DllExport PF_Err EffectMain(
+PF_Err
+EffectMain(
     PF_Cmd       cmd,
     PF_InData   *in_data,
     PF_OutData  *out_data,
