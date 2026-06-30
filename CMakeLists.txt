@@ -27,7 +27,6 @@ else()
     message(WARNING "AE_Effect.h not found by search, assuming: ${AE_HEADERS}")
 endif()
 
-# Derive Util directory relative to Headers
 get_filename_component(_examples_dir "${AE_HEADERS}" DIRECTORY)
 set(AE_UTIL "${_examples_dir}/Util")
 set(AE_RES  "${_examples_dir}/Resources")
@@ -71,6 +70,35 @@ elseif(APPLE)
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/res/Info.plist"
     )
     target_compile_options(Grow PRIVATE -Wno-deprecated-declarations)
+
+    # --- Compile PiPL resource with Rez ---
+    set(PIPL_R "${CMAKE_CURRENT_SOURCE_DIR}/res/GrowPiPL.r")
+    set(PIPL_RSRC "${CMAKE_CURRENT_BINARY_DIR}/GrowPiPL.rsrc")
+
+    add_custom_command(
+        OUTPUT "${PIPL_RSRC}"
+        COMMAND /usr/bin/Rez
+            -o "${PIPL_RSRC}"
+            -useDF
+            -d __MACH__
+            -I "${AE_HEADERS}"
+            -I "${AE_RES}"
+            "${PIPL_R}"
+        DEPENDS "${PIPL_R}"
+        COMMENT "Compiling PiPL resource"
+    )
+    add_custom_target(GrowPiPL DEPENDS "${PIPL_RSRC}")
+    add_dependencies(Grow GrowPiPL)
+
+    # Copy .rsrc into the plugin bundle's Resources folder
+    add_custom_command(TARGET Grow POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory
+            "$<TARGET_BUNDLE_DIR:Grow>/Contents/Resources"
+        COMMAND ${CMAKE_COMMAND} -E copy
+            "${PIPL_RSRC}"
+            "$<TARGET_BUNDLE_DIR:Grow>/Contents/Resources/GrowPiPL.rsrc"
+        COMMENT "Embedding PiPL resource into plugin bundle"
+    )
 endif()
 
 target_compile_options(Grow PRIVATE
