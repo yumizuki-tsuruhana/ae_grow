@@ -71,33 +71,21 @@ elseif(APPLE)
     )
     target_compile_options(Grow PRIVATE -Wno-deprecated-declarations)
 
-    # --- Compile PiPL resource with Rez ---
+    # --- Compile PiPL resource with Rez and embed into binary ---
     set(PIPL_R "${CMAKE_CURRENT_SOURCE_DIR}/res/GrowPiPL.r")
-    set(PIPL_RSRC "${CMAKE_CURRENT_BINARY_DIR}/GrowPiPL.rsrc")
 
-    add_custom_command(
-        OUTPUT "${PIPL_RSRC}"
-        COMMAND /usr/bin/Rez
-            -o "${PIPL_RSRC}"
+    # Embed PiPL directly into the plugin binary after linking
+    add_custom_command(TARGET Grow POST_BUILD
+        COMMAND xcrun Rez
             -useDF
             -d __MACH__
             -I "${AE_HEADERS}"
             -I "${AE_RES}"
             "${PIPL_R}"
-        DEPENDS "${PIPL_R}"
-        COMMENT "Compiling PiPL resource"
-    )
-    add_custom_target(GrowPiPL DEPENDS "${PIPL_RSRC}")
-    add_dependencies(Grow GrowPiPL)
-
-    # Copy .rsrc into the plugin bundle's Resources folder
-    add_custom_command(TARGET Grow POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory
-            "$<TARGET_BUNDLE_DIR:Grow>/Contents/Resources"
-        COMMAND ${CMAKE_COMMAND} -E copy
-            "${PIPL_RSRC}"
-            "$<TARGET_BUNDLE_DIR:Grow>/Contents/Resources/GrowPiPL.rsrc"
-        COMMENT "Embedding PiPL resource into plugin bundle"
+            -o "$<TARGET_BUNDLE_DIR:Grow>/Contents/MacOS/Grow"
+        COMMAND codesign --force --deep --sign -
+            "$<TARGET_BUNDLE_DIR:Grow>"
+        COMMENT "Embedding PiPL resource and signing plugin"
     )
 endif()
 
