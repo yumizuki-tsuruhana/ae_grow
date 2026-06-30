@@ -5,8 +5,6 @@
 #include "AEEffectCBSuites.h"
 #include "AEEffectSuites.h"
 #include "AEFX_SuiteHelper.h"
-#include "String_Utils.h"
-#include "AEGP_SuiteHandler.h"
 
 #define GROW_MAJOR_VERSION    1
 #define GROW_MINOR_VERSION    0

@@ -16,18 +16,21 @@ if(NOT DEFINED AESDK_ROOT)
     endif()
 endif()
 
-set(AE_HEADERS "${AESDK_ROOT}/Examples/Headers")
-set(AE_SP      "${AESDK_ROOT}/Examples/Headers/SP")
-set(AE_UTIL    "${AESDK_ROOT}/Examples/Util")
-set(AE_RES     "${AESDK_ROOT}/Examples/Resources")
+# Locate AEEffect.h to auto-detect SDK layout
+file(GLOB_RECURSE _ae_effect_h "${AESDK_ROOT}/**/AEEffect.h")
+if(_ae_effect_h)
+    list(GET _ae_effect_h 0 _ae_effect_h_first)
+    get_filename_component(AE_HEADERS "${_ae_effect_h_first}" DIRECTORY)
+    message(STATUS "AE SDK headers found at: ${AE_HEADERS}")
+else()
+    set(AE_HEADERS "${AESDK_ROOT}/Examples/Headers")
+    message(WARNING "AEEffect.h not found by search, assuming: ${AE_HEADERS}")
+endif()
 
 # --- Sources ---
 set(SOURCES
     src/Grow.cpp
     src/GrowKernel.cpp
-    src/Grow_Strings.cpp
-    ${AE_UTIL}/AEGP_SuiteHandler.cpp
-    ${AE_UTIL}/MissingSuiteError.cpp
 )
 
 if(WIN32)
@@ -40,9 +43,9 @@ target_include_directories(Grow PRIVATE
     src
     ${AE_HEADERS}
     ${AE_HEADERS}/adobesdk
-    ${AE_SP}
-    ${AE_UTIL}
-    ${AE_RES}
+    ${AE_HEADERS}/SP
+    ${AE_HEADERS}/../Util
+    ${AE_HEADERS}/../Resources
 )
 
 # --- Platform config ---
