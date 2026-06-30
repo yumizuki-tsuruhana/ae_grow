@@ -1,74 +1,80 @@
-# YT Grow — After Effects Grow/Shrink Effect Plugin
+# YT Grow — After Effects Grow/Shrink エフェクト
 
-高速な距離変換アルゴリズムを使用した、軽量かつパワフルなモルフォロジカル Grow/Shrink エフェクト。
+軽量かつパワフルなモルフォロジカル Grow/Shrink エフェクト。
 
-## 特徴
+## 2つの使い方
 
-- **超高速**: Felzenszwalb & Huttenlocher の距離変換アルゴリズム採用。半径に関係なく O(n) で処理完了
-- **3つのモード**: Grow（膨張）/ Shrink（収縮）/ Edge Only（エッジ抽出）
-- **3つのシェイプ**: Circle（円形）/ Square（四角）/ Diamond（ひし形）
-- **チャンネル選択**: Alpha / Luminance / RGB Max で処理対象を選択
-- **ソフトネス制御**: エッジの柔らかさを自由に調整
-- **8bit / 16bit 対応**: Deep Color 完全サポート
-- **SmartFX 対応**: AE の Smart Render パイプラインに対応し、必要最小限の領域のみ処理
+### 🎯 スクリプト版（おすすめ・コンパイル不要！）
 
-## パラメータ
+`YT_Grow.jsx` をドロップするだけ。開発環境は一切不要。
 
-| パラメータ | 範囲 | 説明 |
-|-----------|------|------|
-| **Radius** | 0–500 px | Grow/Shrink する量 |
-| **Softness** | 0–100% | エッジのぼかし量 |
-| **Mode** | Grow / Shrink / Edge Only | 処理モード |
-| **Shape** | Circle / Square / Diamond | カーネル形状 |
-| **Channel** | Alpha / Luminance / RGB Max | 処理対象チャンネル |
-| **Threshold** | 0–1.0 | エッジ検出の閾値 |
-| **Invert** | On/Off | 結果を反転 |
-| **Blend Original** | 0–100% | 元の画像とブレンド |
+### ⚙️ C++ プラグイン版（上級者向け）
 
-## ビルド方法
+距離変換アルゴリズムによるネイティブプラグイン。Adobe AE SDK が必要。
 
-### 前提条件
+---
 
-- [Adobe After Effects SDK](https://developer.adobe.com/after-effects/) (無料ダウンロード)
+## スクリプト版のインストール
+
+### Step 1: `YT_Grow.jsx` をコピー
+
+- **Windows**: `C:\Program Files\Adobe\Adobe After Effects <version>\Support Files\Scripts\ScriptUI Panels\`
+- **macOS**: `/Applications/Adobe After Effects <version>/Scripts/ScriptUI Panels/`
+
+### Step 2: AE を再起動
+
+### Step 3: パネルを開く
+
+**Window > YT Grow** で表示されます。
+
+### 使い方
+
+1. コンポジションでレイヤーを選択
+2. YT Grow パネルで Radius や Mode を設定
+3. 「Apply to Selected Layer」をクリック
+
+### パラメータ
+
+| パラメータ | 説明 |
+|-----------|------|
+| **Radius** | Grow/Shrink の量（0–200 px） |
+| **Softness** | エッジのぼかし量（0–100） |
+| **Mode** | Grow（膨張）/ Shrink（収縮）/ Grow + Shrink |
+| **Shape** | Circle / Square / Diamond |
+| **Channel** | Alpha のみ / All（RGB + Alpha） |
+| **Quality** | Fast(1x) / Medium(2x) / High(3x) — 大きい Radius 時の精度 |
+
+---
+
+## C++ プラグイン版（上級者向け）
+
+### 必要なもの
+
+- [Adobe After Effects SDK](https://developer.adobe.com/after-effects/) (無料・要Adobe ID)
 - CMake 3.20 以上
 - Windows: Visual Studio 2019+ / macOS: Xcode 12+
 
 ### ビルド手順
 
 ```bash
-# 1. AE SDK のパスを指定してビルド
 mkdir build && cd build
 cmake .. -DAESDK_ROOT=/path/to/AfterEffectsSDK
-cmake --build . --config Release
-
-# Windows の場合
-cmake .. -G "Visual Studio 17 2022" -A x64 -DAESDK_ROOT=C:/AfterEffectsSDK
 cmake --build . --config Release
 ```
 
 ### インストール
 
-ビルドされた `Grow.aex`（Windows）または `Grow.plugin`（macOS）を以下にコピー：
+ビルドされた `Grow.aex`（Win）/ `Grow.plugin`（Mac）をコピー：
 
 - **Windows**: `C:\Program Files\Adobe\Common\Plug-ins\7.0\MediaCore\`
 - **macOS**: `/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/`
 
-After Effects を再起動すると、**Effect > YT Effects > YT Grow** に表示されます。
+AE 再起動 → **Effect > YT Effects > YT Grow**
 
-## アルゴリズム
+### アルゴリズム
 
-距離変換ベースのアプローチを採用しています：
-
-1. 入力画像からバイナリマスクを生成（閾値＋チャンネル選択）
-2. 選択された形状に応じた距離変換を実行
-   - Circle: ユークリッド距離変換（分離可能2パス）
-   - Square: チェビシェフ距離変換
-   - Diamond: マンハッタン距離変換
-3. 距離値を Radius と Softness に基づいて 0–1 のファクターに変換
-4. ファクターを出力に適用
-
-従来のカーネルベースの膨張処理（O(n × r²)）と違い、距離変換は O(n) で完了するため、
-Radius = 1 でも Radius = 500 でも処理時間はほぼ同じです。
+Felzenszwalb & Huttenlocher の距離変換を使い、半径に関係なく O(n) で処理完了。
+従来のカーネル方式（O(n × r²)）と比べて大きい Radius でも速度が落ちません。
 
 ## ライセンス
 
