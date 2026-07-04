@@ -62,12 +62,14 @@ cmake .. -DAESDK_ROOT=~/Documents/ae25.6_61.64bit.AfterEffectsSDK
 cmake --build . --config Release
 ```
 
-Xcode で開きたい場合:
+Xcode でビルドする場合（SDK サンプルと同じ方式）:
 ```bash
-mkdir build && cd build
-cmake -G Xcode .. -DAESDK_ROOT=~/Documents/ae25.6_61.64bit.AfterEffectsSDK
-open Grow.xcodeproj
+open Mac/Grow.xcodeproj   # Xcode で開いて ⌘B
+# または CLI で:
+xcodebuild -project Mac/Grow.xcodeproj -configuration Release build
 ```
+SDK の場所が `~/Documents/ae25.6_61.64bit.AfterEffectsSDK` 以外の場合は
+`xcodebuild ... AESDK_ROOT=/path/to/sdk` で上書きできます。
 
 ### ビルド手順（Windows）
 

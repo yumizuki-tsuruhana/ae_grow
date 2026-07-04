@@ -15,6 +15,10 @@
     <string>YT Grow</string>
     <key>CFBundlePackageType</key>
     <string>eFKT</string>
+    <key>CFBundleSignature</key>
+    <string>FXTC</string>
+    <key>LSRequiresCarbon</key>
+    <true/>
     <key>CFBundleShortVersionString</key>
     <string>1.0.0</string>
     <key>CFBundleVersion</key>

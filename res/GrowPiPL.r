@@ -41,10 +41,10 @@ resource 'PiPL' (16000) {
 			0
 		},
 		AE_Effect_Global_OutFlags {
-			0x04000004
+			0x02000600	/* DEEP_COLOR_AWARE | PIX_INDEPENDENT | I_EXPAND_BUFFER */
 		},
 		AE_Effect_Global_OutFlags_2 {
-			0x08001000
+			0x08000400	/* SUPPORTS_THREADED_RENDERING | SUPPORTS_SMART_RENDER */
 		},
 		AE_Effect_Match_Name {
 			"YT Grow"

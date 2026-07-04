@@ -37,7 +37,6 @@ GlobalSetup(
 
     out_data->out_flags2 =
         PF_OutFlag2_SUPPORTS_SMART_RENDER |
-        PF_OutFlag2_FLOAT_COLOR_AWARE     |
         PF_OutFlag2_SUPPORTS_THREADED_RENDERING;
 
     return PF_Err_NONE;
@@ -290,7 +289,7 @@ QueryDynamicFlags(
     return PF_Err_NONE;
 }
 
-DllExport PF_Err
+extern "C" DllExport PF_Err
 PluginDataEntryFunction2(
     PF_PluginDataPtr   inPtr,
     PF_PluginDataCB2   inPluginDataCallBackPtr,
