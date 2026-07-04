@@ -9,8 +9,8 @@ build/
 *.lib
 .vs/
 .vscode/
-*.xcodeproj/
 *.xcworkspace/
+xcuserdata/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake

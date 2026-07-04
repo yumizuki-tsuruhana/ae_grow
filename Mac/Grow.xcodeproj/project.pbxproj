@@ -1,0 +1,208 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A100000000000000000000B1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F1 /* Cocoa.framework */; };
+		A100000000000000000000B2 /* Grow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F2 /* Grow.cpp */; };
+		A100000000000000000000B3 /* GrowKernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F3 /* GrowKernel.cpp */; };
+		A100000000000000000000B4 /* GrowPiPL.r in Resources */ = {isa = PBXBuildFile; fileRef = A100000000000000000000F4 /* GrowPiPL.r */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A100000000000000000000F1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		A100000000000000000000F2 /* Grow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Grow.cpp; path = ../src/Grow.cpp; sourceTree = SOURCE_ROOT; };
+		A100000000000000000000F3 /* GrowKernel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GrowKernel.cpp; path = ../src/GrowKernel.cpp; sourceTree = SOURCE_ROOT; };
+		A100000000000000000000F4 /* GrowPiPL.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = GrowPiPL.r; path = ../res/GrowPiPL.r; sourceTree = SOURCE_ROOT; };
+		A100000000000000000000F5 /* Grow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Grow.h; path = ../src/Grow.h; sourceTree = SOURCE_ROOT; };
+		A100000000000000000000F6 /* GrowKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowKernel.h; path = ../src/GrowKernel.h; sourceTree = SOURCE_ROOT; };
+		A100000000000000000000F7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../res/Info.plist; sourceTree = SOURCE_ROOT; };
+		A100000000000000000000F8 /* Grow.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Grow.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A100000000000000000000C3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000000000000000000B1 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A100000000000000000000A1 = {
+			isa = PBXGroup;
+			children = (
+				A100000000000000000000F2 /* Grow.cpp */,
+				A100000000000000000000F5 /* Grow.h */,
+				A100000000000000000000F3 /* GrowKernel.cpp */,
+				A100000000000000000000F6 /* GrowKernel.h */,
+				A100000000000000000000F4 /* GrowPiPL.r */,
+				A100000000000000000000F7 /* Info.plist */,
+				A100000000000000000000F1 /* Cocoa.framework */,
+				A100000000000000000000A2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A100000000000000000000A2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A100000000000000000000F8 /* Grow.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A100000000000000000000D1 /* Grow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100000000000000000000E2 /* Build configuration list for PBXNativeTarget "Grow" */;
+			buildPhases = (
+				A100000000000000000000C1 /* Resources */,
+				A100000000000000000000C2 /* Sources */,
+				A100000000000000000000C3 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Grow;
+			productName = Grow.plugin;
+			productReference = A100000000000000000000F8 /* Grow.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A100000000000000000000A0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1620;
+			};
+			buildConfigurationList = A100000000000000000000E1 /* Build configuration list for PBXProject "Grow" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A100000000000000000000A1;
+			productRefGroup = A100000000000000000000A2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A100000000000000000000D1 /* Grow */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A100000000000000000000C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000000000000000000B4 /* GrowPiPL.r in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A100000000000000000000C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000000000000000000B2 /* Grow.cpp in Sources */,
+				A100000000000000000000B3 /* GrowKernel.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A10000000000000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AESDK_ROOT = "$(HOME)/Documents/ae25.6_61.64bit.AfterEffectsSDK";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(AESDK_ROOT)/Examples/Headers",
+					"$(AESDK_ROOT)/Examples/Headers/SP",
+					"$(AESDK_ROOT)/Examples/Headers/adobesdk",
+					"$(AESDK_ROOT)/Examples/Util",
+					"$(AESDK_ROOT)/Examples/Resources",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				REZ_PREPROCESSOR_DEFINITIONS = __MACH__;
+				REZ_SEARCH_PATHS = (
+					"$(AESDK_ROOT)/Examples/Headers",
+					"$(AESDK_ROOT)/Examples/Resources",
+				);
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Release;
+		};
+		A10000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				INFOPLIST_FILE = "../res/Info.plist";
+				INSTALL_PATH = "/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yt-effects.grow";
+				PRODUCT_NAME = Grow;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A100000000000000000000E1 /* Build configuration list for PBXProject "Grow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 1;
+			defaultConfigurationName = Release;
+		};
+		A100000000000000000000E2 /* Build configuration list for PBXNativeTarget "Grow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A100000000000000000000A0 /* Project object */;
+}
